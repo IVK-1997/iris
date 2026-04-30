@@ -11,10 +11,12 @@ y = iris.target
 model = DecisionTreeClassifier()
 model.fit(X, y)
 
+# ✅ HEALTH ENDPOINT (must be simple, no params)
 @app.get("/health")
 def health():
     return {"status": "ok"}
 
+# ✅ PREDICT ENDPOINT
 @app.get("/predict")
 def predict(sl: float, sw: float, pl: float, pw: float):
     prediction = model.predict([[sl, sw, pl, pw]])[0]
