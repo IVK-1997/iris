@@ -11,16 +11,18 @@ y = iris.target
 model = DecisionTreeClassifier()
 model.fit(X, y)
 
+@app.get("/")
+def root():
+    return {"message": "Iris API is running"}
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
 
 @app.get("/predict")
-def predict(sl: float = None, sw: float = None, pl: float = None, pw: float = None):
-    if None in (sl, sw, pl, pw):
-        return {"error": "Missing query parameters"}
-
-    prediction = model.predict([[sl, sw, pl, pw]])[0]
+def predict(sl: float, sw: float, pl: float, pw: float):
+    features = [[sl, sw, pl, pw]]
+    prediction = model.predict(features)[0]
     class_name = iris.target_names[prediction]
 
     return {
