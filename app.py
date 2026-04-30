@@ -11,14 +11,15 @@ y = iris.target
 model = DecisionTreeClassifier()
 model.fit(X, y)
 
-# ✅ HEALTH ENDPOINT (must be simple, no params)
 @app.get("/health")
 def health():
     return {"status": "ok"}
 
-# ✅ PREDICT ENDPOINT
 @app.get("/predict")
-def predict(sl: float, sw: float, pl: float, pw: float):
+def predict(sl: float = None, sw: float = None, pl: float = None, pw: float = None):
+    if None in (sl, sw, pl, pw):
+        return {"error": "Missing query parameters"}
+
     prediction = model.predict([[sl, sw, pl, pw]])[0]
     class_name = iris.target_names[prediction]
 
