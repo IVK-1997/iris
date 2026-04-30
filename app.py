@@ -8,12 +8,8 @@ iris = load_iris()
 X = iris.data
 y = iris.target
 
-model = DecisionTreeClassifier()
+model = DecisionTreeClassifier(random_state=42)
 model.fit(X, y)
-
-@app.get("/")
-def root():
-    return {"message": "Iris API is running"}
 
 @app.get("/health")
 def health():
